@@ -1,0 +1,7 @@
+write-kubeconfig-mode: "0644"
+node-name: "demo-{node}"
+server: "https://{server}:6443"
+token: "{token}"
+tls-san: 
+    - "{tls-san1}"
+    - "{tls-san2}"
