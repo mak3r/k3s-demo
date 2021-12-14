@@ -1,11 +1,11 @@
 resource "aws_key_pair" "ssh_key_pair" {
-  key_name_prefix = "${var.prefix}-fleet-raw-demo-"
+  key_name_prefix = "${var.prefix}-k3s-demo-"
   public_key      = file("${var.ssh_key_file_name}.pub")
 }
 
 # Security group to allow all traffic
 resource "aws_security_group" "sg_allowall" {
-  name        = "${var.prefix}-fleet-raw-demo-allowall"
+  name        = "${var.prefix}-k3s-demo-allowall"
 
   ingress {
     from_port   = "0"
@@ -22,6 +22,23 @@ resource "aws_security_group" "sg_allowall" {
   }
 }
 
+resource "aws_instance" "opensuse_vms" {
+  count         = var.amd_count
+  ami           = data.aws_ami.leap.id
+  instance_type = "t3a.xlarge"
+
+  key_name        = aws_key_pair.ssh_key_pair.key_name
+  security_groups = [aws_security_group.sg_allowall.name]
+
+  root_block_device {
+    volume_size = 80
+  }
+
+  tags = {
+    Name = "${var.prefix}-k3s-demo-opensuse"
+  }
+}
+
 resource "aws_instance" "ubuntu_vms" {
   count         = var.amd_count
   ami           = data.aws_ami.ubuntu.id
@@ -35,7 +52,7 @@ resource "aws_instance" "ubuntu_vms" {
   }
 
   tags = {
-    Name = "${var.prefix}-fleet-raw-demo-ubuntu"
+    Name = "${var.prefix}-k3s-demo-ubuntu"
   }
 }
 
@@ -48,7 +65,7 @@ resource "aws_instance" "arm_vms" {
   security_groups = [aws_security_group.sg_allowall.name]
 
   tags = {
-    Name = "${var.prefix}-fleet-raw-demo-arm"
+    Name = "${var.prefix}-k3s-demo-arm"
   }
 }
 
@@ -61,7 +78,7 @@ resource "aws_instance" "gpu_vms" {
   security_groups = [aws_security_group.sg_allowall.name]
 
   tags = {
-    Name = "${var.prefix}-fleet-raw-demo-gpu"
+    Name = "${var.prefix}-k3s-demo-gpu"
     demo = "NVIDIA MIG"
   }
 }

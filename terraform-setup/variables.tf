@@ -25,13 +25,13 @@ variable "prefix" {
 variable "arm_count" {
   type        = number
   description = "Number of arm devices"
-  default     = 4
+  default     = 0
 }
 
 variable "amd_count" {
   type        = number
   description = "Number of amd devices. "
-  default     = 0
+  default     = 4
 }
 
 variable "gpu_count" {

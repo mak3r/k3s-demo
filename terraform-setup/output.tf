@@ -12,8 +12,9 @@ output "single_name" {
 
 output "all_node_ips" {
   value = concat(
+    aws_instance.opensuse_vms.*.public_ip,
     # aws_instance.ubuntu_vms.*.public_ip,
-    aws_instance.arm_vms.*.public_ip,
+    # aws_instance.arm_vms.*.public_ip,
 	# aws_instance.gpu_vms.*.public_ip,
   )
 }

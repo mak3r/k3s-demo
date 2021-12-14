@@ -1,3 +1,18 @@
+data "aws_ami" "leap" {
+  most_recent = true
+  owners      = ["679593333241"] # OpenSUSE
+
+  filter {
+    name   = "name"
+    values = ["openSUSE-Leap-15.3-HVM-x86_64-Innovators-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical

@@ -1,6 +1,6 @@
 resource "aws_elb" "k3s-single-lb" {
   name               = "${var.prefix}-k3s-single-lb"
-  availability_zones = aws_instance.arm_vms[*].availability_zone
+  availability_zones = aws_instance.opensuse_vms[*].availability_zone
 
   listener {
     instance_port     = 80
@@ -32,7 +32,7 @@ resource "aws_elb" "k3s-single-lb" {
   }
 
   instances                   = [
-    aws_instance.arm_vms[0].id
+    aws_instance.opensuse_vms[0].id
   ]
   cross_zone_load_balancing   = true
   idle_timeout                = 400
